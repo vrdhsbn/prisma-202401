@@ -1,7 +1,7 @@
-import { getProducts } from '../utils/getProducts'
+import { getProducts } from '@/app/utils/getProducts'
+import DeleteButton from '../ui/DeleteButton'
 
-// 商品一覧ページ
-export const ProductsList = async () => {
+export const Table = async () => {
   const products = await getProducts()
 
   return (
@@ -11,10 +11,11 @@ export const ProductsList = async () => {
           <th>ID</th>
           <th>商品名</th>
           <th>説明文</th>
-          <th>画像ファイル</th>
           <th>価格</th>
           <th>在庫</th>
           <th>カテゴリ</th>
+          <th>最終更新</th>
+          <th>削除</th>
         </tr>
       </thead>
       <tbody>
@@ -23,10 +24,13 @@ export const ProductsList = async () => {
             <td>{product.id}</td>
             <td>{product.name}</td>
             <td>{product.description}</td>
-            <td>{product.image}</td>
-            <td>{product.price}</td>
+            <td>{product.price.toLocaleString()}</td>
             <td>{product.stock}</td>
             <td>{product.category.title}</td>
+            <td>{product.updatedAt.toLocaleString()}</td>
+            <td>
+              <DeleteButton id={product.id} />
+            </td>
           </tr>
         ))}
       </tbody>

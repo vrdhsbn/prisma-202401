@@ -1,27 +1,29 @@
 'use server'
 
 import { PrismaClient } from '@prisma/client'
+import { revalidatePath } from 'next/cache'
 
 export const addProduct = async () => {
   const prisma = new PrismaClient()
 
   try {
     console.log('prisma connect...')
-    const item = await prisma.product.create({
+    const item = await prisma.prisma_Product.create({
       data: {
-        name: 'test',
-        description: 'ほげほげ',
+        name: 'テスト商品',
+        description: '説明文です',
         image: 'dummy.jpg',
         price: 1200,
         stock: 3,
         category: {
           create: {
-            title: 'hoge',
+            title: 'カテゴリ1',
           },
         },
       },
     })
     console.log(item)
+    revalidatePath('/')
   } catch (error) {
     console.error(error)
   } finally {

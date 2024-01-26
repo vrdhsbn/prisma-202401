@@ -1,16 +1,20 @@
-import { PrismaClient } from '@prisma/client'
+'use server'
 
-export const getProducts = async () => {
+import { PrismaClient } from '@prisma/client'
+import { revalidatePath } from 'next/cache'
+
+export const deleteProduct = async (id: number) => {
   const prisma = new PrismaClient()
 
   try {
     console.log('prisma connect...')
-    const products = await prisma.prisma_Product.findMany({
-      include: {
-        category: true,
+    const item = await prisma.prisma_Product.delete({
+      where: {
+        id: id,
       },
     })
-    return products
+    console.log(item)
+    revalidatePath('/')
   } catch (error) {
     console.error(error)
   } finally {
