@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Supabase は PostgreSQL なので "postgresql" を指定する
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// マイグレーションとクライアントの生成
+// $ bun prisma migrate dev --name init
+// $ bun prisma generate
+
+// 商品
+model prisma_Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  image       String?
+  price       Int
+  stock       Int
+  category    prisma_Category @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// カテゴリ
+model prisma_Category {
+  id      Int     @id @default(autoincrement())
+  title   String
+  product prisma_Product[]
+}
