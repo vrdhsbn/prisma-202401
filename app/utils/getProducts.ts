@@ -6,6 +6,11 @@ export const getProducts = async () => {
   try {
     console.log('prisma connect...')
     const products = await prisma.prisma_Product.findMany({
+      orderBy: [
+        {
+          id: 'desc',
+        },
+      ],
       include: {
         category: true,
       },

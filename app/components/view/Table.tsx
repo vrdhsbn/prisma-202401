@@ -1,5 +1,6 @@
 import { getProducts } from '@/app/utils/getProducts'
-import DeleteButton from '../ui/DeleteButton'
+import { DeleteButton } from '../ui/DeleteButton'
+import { UpdateButton } from '../ui/UpdateButton'
 
 export const Table = async () => {
   const products = await getProducts()
@@ -15,6 +16,7 @@ export const Table = async () => {
           <th>在庫</th>
           <th>カテゴリ</th>
           <th>最終更新</th>
+          <th>更新</th>
           <th>削除</th>
         </tr>
       </thead>
@@ -28,6 +30,9 @@ export const Table = async () => {
             <td>{product.stock}</td>
             <td>{product.category.title}</td>
             <td>{product.updatedAt.toLocaleString()}</td>
+            <td>
+              <UpdateButton id={product.id} />
+            </td>
             <td>
               <DeleteButton id={product.id} />
             </td>
