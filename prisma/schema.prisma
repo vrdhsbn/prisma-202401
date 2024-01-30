@@ -11,6 +11,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// デフォルトで @prisma/client に型定義が作られるようだが、
+// 外部ライブラリを使って生成することもできる
+generator zod {
+  provider = "zod-prisma-types"
+}
+
 // マイグレーションとクライアントの生成
 // $ bun prisma migrate dev --name init
 // $ bun prisma generate
